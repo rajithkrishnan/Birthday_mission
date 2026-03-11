@@ -29,8 +29,8 @@ opacity:0.8;
 }
 
 @keyframes float{
-0%{transform:translateY(0) rotate(0deg)}
-100%{transform:translateY(-110vh) rotate(360deg)}
+0%{transform:translateY(0)}
+100%{transform:translateY(-110vh)}
 }
 
 .hero{
@@ -102,10 +102,6 @@ transition:0.4s;
 transform:scale(1.08) rotate(2deg);
 }
 
-.quiz button{
-margin:10px;
-}
-
 .hidden{
 display:none;
 }
@@ -120,6 +116,11 @@ padding:25px;
 </head>
 
 <body>
+
+<!-- Background Music -->
+<audio autoplay loop>
+<source src="song.mp3" type="audio/mpeg">
+</audio>
 
 <section class="hero">
 
@@ -185,7 +186,7 @@ After years of careful observation, research, and staring at you like an idiot, 
 
 <section class="section hidden" id="stage3">
 
-<div class="card quiz">
+<div class="card">
 
 <h2>Final Security Question</h2>
 
@@ -194,9 +195,7 @@ Who is the most beautiful, funny, intelligent, slightly overthinking but absolut
 </p>
 
 <button onclick="correct()">You</button>
-
-<button id="trap">Definitely not you</button>
-
+<button onclick="correct()">Also You</button>
 <button onclick="correct()">Still You</button>
 
 </div>
@@ -209,7 +208,31 @@ Who is the most beautiful, funny, intelligent, slightly overthinking but absolut
 
 <h2>Mission Complete ❤️</h2>
 
-<p id="typing" style="font-size:18px;line-height:1.7"></p>
+<p style="font-size:18px;line-height:1.7">
+
+The investigation is complete.
+
+Conclusion: Life is significantly better with you in it.
+
+You make ordinary days feel special, conversations feel easy, and moments feel meaningful.
+
+Happy Birthday to the smartest, kindest, funniest and most beautiful girl I know.
+
+</p>
+
+<hr>
+
+<h3>Love Level Detector</h3>
+
+<button onclick="loveMeter()">Scan Love Level</button>
+
+<p id="loveResult"></p>
+
+<hr>
+
+<h3>Countdown to Next Birthday</h3>
+
+<p id="countdown"></p>
 
 </div>
 
@@ -252,37 +275,38 @@ document.getElementById('stage3').classList.remove('hidden')
 window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})
 }
 
-/* trap button */
-
-document.getElementById("trap").addEventListener("mouseover",function(){
-this.style.position="absolute"
-this.style.left=Math.random()*80+"%"
-this.style.top=Math.random()*80+"%"
-})
-
-/* final message */
-
 function correct(){
-
 document.getElementById('final').classList.remove('hidden')
-
-let text="Conclusion: Life is significantly better with you in it. You make ordinary days feel special, conversations feel easy, and moments feel meaningful. Happy Birthday to the smartest, kindest, funniest and most beautiful girl I know."
-
-let i=0
-let speed=40
-
-function typing(){
-if(i<text.length){
-document.getElementById("typing").innerHTML+=text.charAt(i)
-i++
-setTimeout(typing,speed)
-}
-}
-
-typing()
-
 window.scrollTo({top:document.body.scrollHeight,behavior:'smooth'})
 }
+
+/* Love meter */
+
+function loveMeter(){
+let value = Math.floor(Math.random()*10)+90
+document.getElementById("loveResult").innerHTML =
+"Scan complete ❤️ Love detected: " + value + "%"
+}
+
+/* Countdown */
+
+let nextBirthday = new Date("March 10, 2027 00:00:00")
+
+setInterval(()=>{
+
+let now = new Date()
+
+let diff = nextBirthday - now
+
+let days = Math.floor(diff/(1000*60*60*24))
+let hours = Math.floor((diff%(1000*60*60*24))/(1000*60*60))
+let minutes = Math.floor((diff%(1000*60*60))/(1000*60))
+let seconds = Math.floor((diff%(1000*60))/1000)
+
+document.getElementById("countdown").innerHTML =
+days+" days "+hours+" hrs "+minutes+" min "+seconds+" sec"
+
+},1000)
 
 </script>
 
